@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { createAppContainer, createBottomTabNavigator } from 'react-navigation';
+import { createAppContainer, createBottomTabNavigator,createStackNavigator } from 'react-navigation';
 
 import Home from './src/screens/home'
 import About from './src/screens/about'
+import Login from './src/screens/login'
 
 export default class App extends Component{
   render() {
@@ -12,11 +13,12 @@ export default class App extends Component{
   }
 }
 
-const MainNavigation = createBottomTabNavigator({
+const MainNavigation = createStackNavigator({  
   Home,
-  About,
+  Login,
 },{
-  initialRouteName: 'Home'
+  initialRouteName: 'Login'
 });
+
 
 const AppContainer = createAppContainer(MainNavigation);

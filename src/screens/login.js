@@ -1,17 +1,51 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Button, AsyncStorage } from 'react-native'
 
-export default class About extends Component {
+import api from './../services/api';
 
-  static navigationOptions = {
-    title: 'About',
-  }
+
+
+export default class Login extends Component {
+    state = {
+        erroMessage: null,
+    }
+    signIn = async () => {
+   try{
+
+            const response = await api.get('Api/Controller/Comprador/login.php?functionPage=LoginPage', {
+            functionPage: 'LoginPage',
+            email: '',
+            senha: '',
+            });            
+        
+            const { user } = response.data;            
+        
+            await AsyncStorage.multiSet([                
+                ['@CodeApi:user', JSON.stringfy(user)],
+            ]);        
+        } catch (response){
+            console.log(response);
+            this.setState({ erroMessage: response.data })
+
+
+        } 
+      };
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View>
-        <Text>About</Text>
+      { this.state.erroMessage && <Text>{ this.state.erroMessage }</Text> }
+       <Button onPress={this.signIn} title="Entrar Login" />
+       <Button
+        title="Entrar"
+        onPress={() => navigate('Home')}
+      />
       </View>
     );
   }
+}
+
+Login.navigationOptions = {
+  title: 'Login',
 }

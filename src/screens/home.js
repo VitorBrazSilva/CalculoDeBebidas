@@ -4,9 +4,6 @@ import Header from '../components/header'
 
 export default class Home extends Component {
 
-  static navigationOptions = {
-    title: 'Home',
-  }
 
   constructor(props) {
     super(props)
@@ -87,7 +84,6 @@ export default class Home extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
