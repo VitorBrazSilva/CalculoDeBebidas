@@ -33,14 +33,13 @@ export default class Home extends Component {
     let newItem = {
       key: this.state.itens.length.toString(),
       valCalc: valorAtual,
-      desc: `Quantidade: ${this.state.qtd} ML: ${this.state.ml} Valor: R$${this.state.valor} VC: ${valorAtual}`,
+      desc: `Qtd: ${this.state.qtd} - ML: ${this.state.ml} - Valor: R$${this.state.valor} - Valor Litro: R$${valorAtual.toFixed(2)}`,
       done: false
     }
 
     let itens = this.state.itens;
     itens.push(newItem)
     this.setState({ itens })
-
   }
 
   render() {
@@ -49,7 +48,8 @@ export default class Home extends Component {
       <View style={styles.container}>
         <Header title="Cálculo de bebidas" />
         <View style={[styles.entradas]}>
-          <TextInput placeholder="QTD" keyboardType="numeric" style={styles.input} onChangeText={(qtd) => { this.setState({ qtd }) }} />
+          <TextInput placeholder="QTD" keyboardType="numeric" style={styles.input} 
+          onChangeText={(qtd) => { this.setState({ qtd }) }} />
           <TextInput placeholder="ML" keyboardType="numeric" style={styles.input} onChangeText={(ml) => { this.setState({ ml }) }} />
           <TextInput placeholder="R$" keyboardType="numeric" style={styles.input} onChangeText={(valor) => { this.setState({ valor }) }} />
         </View>
