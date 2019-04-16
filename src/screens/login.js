@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
-import { View, Text, Button, AsyncStorage, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text,  AsyncStorage, StyleSheet, TextInput, TouchableOpacity, Alert, Button } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 import api from './../services/api';
 
-// 326 x 120
 
 export default class Login extends Component {
     state = {
         erroMessage: null,     
         email: null,
-        senha: null,   
+        senha: null,
+        loggedInUser: null,   
     }
     signIn = async () => {
       try{        
@@ -31,9 +31,9 @@ export default class Login extends Component {
               '@CodeApi:user', JSON.stringify(user),
           );        
 
-          this.setState({ loggedInUser: user.nome_pessoa })
           
           this.props.navigation.dispatch(navigate)
+                    
          
         } catch (response){                       
           this.setState({ erroMessage: response })    
@@ -47,6 +47,12 @@ export default class Login extends Component {
             { cancelable: false })      
         } 
          };
+
+         async componentDidMount(){
+            const user = JSON.parse(await AsyncStorage.getItem('@CodeApi:user'))
+            this.setState({ loggedInUser: user })
+           
+         }  
        
          handleEmailChange = (email) => {
           this.setState({ email })
@@ -56,9 +62,10 @@ export default class Login extends Component {
           this.setState({ password })
         }
   render() {
+    const {navigate} = this.props.navigation;
     
     return (
-        <View style={styles.container}>      
+        <View style={styles.container}>              
         <View style={styles.boxLogin}>
           <View style={[{ flexDirection: 'column' }, styles.containerInput]} >
             <Text style={styles.txtInput}>E-mail</Text>
@@ -87,7 +94,8 @@ export default class Login extends Component {
             <Text
               style={{color: '#fff'}}
             >Entrar Login</Text>
-          </TouchableOpacity>      
+          </TouchableOpacity>    
+            { this.state.loggedInUser && <Text>Bem Vindo Sr(a): {  this.state.loggedInUser.nome_pessoa }</Text>}                  
         </View>
         </View>
     );
